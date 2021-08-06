@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 05, 2021 at 02:29 PM
+-- Generation Time: Aug 06, 2021 at 01:04 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.15
 
@@ -35,17 +35,18 @@ CREATE TABLE `addmembership` (
   `emailId` varchar(255) NOT NULL,
   `membershipType` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `booksalloted` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `addmembership`
 --
 
-INSERT INTO `addmembership` (`mId`, `memberName`, `fatherName`, `mobileNo`, `emailId`, `membershipType`, `status`, `password`) VALUES
-(1, 'Admin', 'Super Admin', 2147483647, 'admin@123', 'Scholar', 'Active', 'OXf}U%,cH?Te'),
-(5, 'new', 'new', 123456789, 'gauravsharma', 'Scholar', 'Active', ',bX*ZeTuKU[s'),
-(9, 'demo', 'demo', 2147483647, 'aryankhanna1939@gmail.com', 'Scholar', 'Active', 'du4VGv0&*2s%');
+INSERT INTO `addmembership` (`mId`, `memberName`, `fatherName`, `mobileNo`, `emailId`, `membershipType`, `status`, `password`, `booksalloted`) VALUES
+(1, 'Admin', 'Super Admin', 2147483647, 'admin@123', 'Scholar', 'Active', '12345', 3),
+(5, 'new', 'new', 123456789, 'gauravsharma', 'Scholar', 'Active', ',bX*ZeTuKU[s', 1),
+(9, 'demo', 'demo', 2147483647, 'aryankhanna1939@gmail.com', 'Scholar', 'Active', 'du4VGv0&*2s%', 1);
 
 -- --------------------------------------------------------
 
@@ -66,6 +67,29 @@ CREATE TABLE `adminmember` (
 
 INSERT INTO `adminmember` (`email`, `password`, `lastLogin`, `adminType`) VALUES
 ('Admin2@gmail.com', '45612', NULL, 'SuperAdmin');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `booking`
+--
+
+CREATE TABLE `booking` (
+  `bookingId` int(11) NOT NULL,
+  `memberId` int(11) NOT NULL,
+  `bookId` int(11) NOT NULL,
+  `dateOfBooking` varchar(255) NOT NULL,
+  `dateOfRelease` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `booking`
+--
+
+INSERT INTO `booking` (`bookingId`, `memberId`, `bookId`, `dateOfBooking`, `dateOfRelease`) VALUES
+(7, 1, 20, '2021-08-06 14:32:52.944365', '2021-08-21 14:32:52.944365'),
+(8, 1, 20, '2021-08-06 14:33:20.736130', '2021-08-21 14:33:20.736130'),
+(9, 1, 20, '2021-08-06 14:33:58.055526', '2021-08-21 14:33:58.055526');
 
 -- --------------------------------------------------------
 
@@ -169,6 +193,12 @@ ALTER TABLE `adminmember`
   ADD PRIMARY KEY (`email`);
 
 --
+-- Indexes for table `booking`
+--
+ALTER TABLE `booking`
+  ADD PRIMARY KEY (`bookingId`);
+
+--
 -- Indexes for table `books`
 --
 ALTER TABLE `books`
@@ -204,6 +234,12 @@ ALTER TABLE `subsection`
 --
 ALTER TABLE `addmembership`
   MODIFY `mId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `booking`
+--
+ALTER TABLE `booking`
+  MODIFY `bookingId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `books`
