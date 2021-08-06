@@ -1,23 +1,19 @@
-from tkinter import *
+from pymysql import *
 
-def sel():
-   selection = "You selected the option " + str(var.get())
-   label.config(text = selection)
 
-root = Tk()
-var = StringVar()
-R1 = Radiobutton(root, text="Option 1", variable=var, value="id",
-                  command=sel)
-R1.pack( anchor = W )
+conn = Connect(host='127.0.0.1', user='root', password='', database='library_management')
+cr = conn.cursor()
+q = 'select bookingId,bookId,dateOfBooking,dateOfRelease from Booking where memberId = "{}"'.format(1)
+cr.execute(q)
+result= cr.fetchall()
+query= 'select bookName from books where bookId = "{}"'.format(20)
+cr.execute(query)
+result1=cr.fetchone()
 
-R2 = Radiobutton(root, text="Option 2", variable=var, value=2,
-                  command=sel)
-R2.pack( anchor = W )
 
-R3 = Radiobutton(root, text="Option 3", variable=var, value=3,
-                  command=sel)
-R3.pack( anchor = W)
 
-label = Label(root)
-label.pack()
-root.mainloop()
+for i in result:
+    new1 = (i)
+    new1 += result1
+    print(new1)
+

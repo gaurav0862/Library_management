@@ -5,6 +5,8 @@ from pymysql import *
 from PIL import Image,ImageTk
 import datetime
 # import adminHome
+import adminHome
+
 
 class login:
 
@@ -70,7 +72,7 @@ class login:
                 showinfo('Login', "Login Sucessfull")
                 print("Login Sucessfull")
                 self.root.destroy()
-                # adminHome.demo()
+                adminHome.demo()
 
 
 
