@@ -1,4 +1,6 @@
 from tkinter import *
+from tkinter import ttk
+
 from PIL import Image,ImageTk
 from tkinter.messagebox import *
 from tkinter.ttk import Combobox, Treeview
@@ -14,13 +16,16 @@ import viewAdmin
 import viewSections
 import manageMembership
 import addMembership
-
+import viewbooksisued
+import viewMembership
 
 class demo:
 
     def __init__(self):
         self.root = Tk()
         self.root.title("Home Page")
+        self.style = ttk.Style()
+        self.style.theme_use('clam')
         self.screen_width = self.root.winfo_screenwidth()
         self.screen_height = self.root.winfo_screenheight()
         self.root.geometry('1366x680+0+0')
@@ -60,6 +65,7 @@ class demo:
         self.menu_1.add_cascade(label="Manage Memberships", menu=self.membership)
         self.membership.add_command(label="Memberships type", command=lambda: manageMembership.admin_view())
         self.membership.add_command(label="ADD Memberships", command=lambda: addMembership.member_add())
+        self.membership.add_command(label="View Memberships", command=lambda: viewMembership.member_view())
         self.membership = Menu(self.menu_1, tearoff=0)
         self.menu_1.add_cascade(label="Issued Books", menu=self.membership)
         self.membership.add_command(label="View Issued Books", command=lambda: viewbooksisued.issue())
@@ -77,6 +83,8 @@ class demo:
         self.root.mainloop()
 
     def fetchall(self):
+
+
 
         conn = connect(host="127.0.0.1", user="root", password="", database="library_management")
         cr = conn.cursor()

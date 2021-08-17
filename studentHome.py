@@ -3,7 +3,7 @@ from PIL import Image,ImageTk
 from tkinter.messagebox import *
 from tkinter.ttk import Combobox, Treeview
 from pymysql import *
-import datetime
+from datetime import date
 from datetime import datetime, timedelta
 
 import changepassword
@@ -51,9 +51,9 @@ class student:
         self.admin.add_command(label="Change Password", command=lambda: changepassword.change(self.memberId))
         self.admin.add_command(label="Logout", command=self.logout)
         self.Book = Menu(self.menu_1, tearoff=0)
-        self.menu_1.add_cascade(label="Book", menu=self.Book)
+        self.menu_1.add_cascade(label="Books", menu=self.Book)
         self.Book.add_command(label="View Issued Books", command=lambda: viewissuedbooks.issue(self.memberId))
-        self.Book.add_command(label="Logout", command="self.logout")
+
 
         self.root.mainloop()
 
@@ -99,6 +99,8 @@ class student:
             self.trv1.heading(7, text="ISBN")
             self.trv1.heading(8, text="Section")
             self.trv1.heading(9, text="Sub Section")
+            self.butn = Button(self.top, text="Book", font=("arial", "10", 'bold'), command=self.book)
+            self.butn.pack(pady=10)
 
             for i in self.trv1.get_children():
                 self.trv1.delete(i)
@@ -156,7 +158,7 @@ class student:
         self.temp_data = self.trv1.item(self.trv1.focus())['values']
         bookId = self.temp_data[0]
 
-        time = datetime.date.today()
+        time = date.today()
 
 
         if self.membertype=="Scholar":
@@ -168,21 +170,24 @@ class student:
             x=[]
             for i in result:
                 x.append(i[0])
-                duration=i[1]
+                x.append(i[1])
+            duration = x[1]
             if x[0]==self.booksalloted:
                 showwarning("booking","Exceed limit ")
             else:
-                new_date = datetime.date.today() + timedelta(duration)
-                q= 'insert into booking VALUES (null,"{}","{}","{}","{}")'.format(self.memberId,bookId,time,new_date)
+                new_date = date.today() + timedelta(duration)
+                q= 'insert into booking VALUES (null,"{}","{}","{}","{}","{}",null)'.format(self.memberId,bookId,time,new_date,"Requested")
                 cr.execute(q)
                 result = cr.fetchall()
                 print(result)
-
-                self.booksalot = self.booksalloted+1
-                q= 'update addmembership set booksalloted ="{}" where mId ="{}"'.format(self.booksalot,self.memberId)
-                cr.execute(q)
                 conn.commit()
-                showinfo('book',f"Book issued\n Due Dtae:{new_date} ")
+                showinfo('book', f"Request successfull\n Due Dtae:{new_date} ")
+
+                # self.booksalot = self.booksalloted+1
+                # q= 'update addmembership set booksalloted ="{}" where mId ="{}"'.format(self.booksalot,self.memberId)
+                # cr.execute(q)
+                # conn.commit()
+                # showinfo('book',f"Book issued\n Due Dtae:{new_date} ")
 
 
         elif self.membertype=="Student":
@@ -194,21 +199,24 @@ class student:
             x=[]
             for i in result:
                 x.append(i[0])
-                duration=i[1]
+                x.append(i[1])
+            duration1 = x[1]
             if x[0]==self.booksalloted:
                 showwarning("booking","Exceed limit ")
             else:
-                new_date = datetime.today() + timedelta(duration)
-                q= 'insert into booking VALUES (null,"{}","{}","{}","{}")'.format(self.memberId,bookId,time,new_date)
+                new_date = date.today() + timedelta(duration1)
+                q= 'insert into booking VALUES (null,"{}","{}","{}","{}","{}",null)'.format(self.memberId,bookId,time,new_date,"Requested")
                 cr.execute(q)
                 result = cr.fetchall()
                 print(result)
-
-                self.booksalot = self.booksalloted+1
-                q= 'update addmembership set booksalloted ="{}" where mId ="{}"'.format(self.booksalot,self.memberId)
-                cr.execute(q)
                 conn.commit()
-                showinfo('book', f"Book issued\n Due Dtae:{new_date} ")
+                showinfo('book', f"Request successfull\n Due Dtae:{new_date} ")
+
+                # self.booksalot = self.booksalloted+1
+                # q= 'update addmembership set booksalloted ="{}" where mId ="{}"'.format(self.booksalot,self.memberId)
+                # cr.execute(q)
+                # conn.commit()
+                # showinfo('book', f"Book issued\n Due Dtae:{new_date} ")
 
         elif self.membertype=="Teacher":
 
@@ -220,21 +228,24 @@ class student:
             x=[]
             for i in result:
                 x.append(i[0])
-                duration=i[1]
+                x.append(i[1])
+            duration2 = x[1]
             if x[0]==self.booksalloted:
                 showwarning("booking","Exceed limit ")
             else:
-                new_date = datetime.today() + timedelta(duration)
-                q= 'insert into booking VALUES (null,"{}","{}","{}","{}")'.format(self.memberId,bookId,time,new_date)
+                new_date = date.today() + timedelta(duration2)
+                q= 'insert into booking VALUES (null,"{}","{}","{}","{}","{}",null)'.format(self.memberId,bookId,time,new_date,"Requested")
                 cr.execute(q)
                 result = cr.fetchall()
                 print(result)
-
-                self.booksalot = self.booksalloted+1
-                q= 'update addmembership set booksalloted ="{}" where mId ="{}"'.format(self.booksalot,self.memberId)
-                cr.execute(q)
                 conn.commit()
-                showinfo('book', f"Book issued\n Due Dtae:{new_date} ")
+                showinfo('book', f"Request successfull\n Due Dtae:{new_date} ")
+
+                # self.booksalot = self.booksalloted+1
+                # q= 'update addmembership set booksalloted ="{}" where mId ="{}"'.format(self.booksalot,self.memberId)
+                # cr.execute(q)
+                # conn.commit()
+                # showinfo('book', f"Book issued\n Due Dtae:{new_date} ")
 
 
     def logout(self):

@@ -50,32 +50,36 @@ class login:
         q = 'select * from addmembership where mId ="{}" and password="{}" '.format(self.lgv, self.lgv_1)
         cr.execute(q)
         result = cr.fetchall()
-        x=[]
-        for i in result:
-            x.append(i[6])
-            x.append(i[5])
-            x.append(i[8])
-
-        membertype = x[1]
-        booksalloted = x[2]
+        print(result)
 
 
-        if self.lgv == "" and self.lgv_1 == "":
+
+
+
+        if self.lgv == "" and self.lgv_1 == "" or result == ():
             showinfo("Login", "Please provide id password")
-
 
         elif result == None:
             showinfo('Login', "Invalid Input")
 
-
-        elif x[0] == "Not Active":
-            showwarning('login',"Student is not active")
-
         else:
-            showinfo('Login', "Login Sucessfull")
-            print("Login Sucessfull")
-            self.root.destroy()
-            studentHome.student(self.lgv,membertype,booksalloted)
+            x = []
+            for i in result:
+                x.append(i[6])
+                x.append(i[5])
+                x.append(i[8])
+
+                membertype = x[1]
+                booksalloted = x[2]
+
+            if x[0] == "Not Active":
+                showwarning('login',"Student is not active")
+
+            else:
+                showinfo('Login', "Login Sucessfull")
+                print("Login Sucessfull")
+                self.root.destroy()
+                studentHome.student(self.lgv,membertype,booksalloted)
 login()
 
 
